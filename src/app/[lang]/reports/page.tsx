@@ -1,5 +1,5 @@
-import React, { Suspense } from "react";
-
+import React, { Suspense, useState } from "react";
+import CalendarClient from "@/components/Calender";
 import Spinner from "@/components/Spinner";
 
 import { getIntl } from "@/lib/intl";
@@ -36,6 +36,7 @@ async function PageContent({ locale }: PageContentProps) {
         {isReportListEmpty && (
           <p className="text-base text-gray-700 italic">{intl.formatMessage({ id: "page.reports.no-data" })}</p>
         )}
+        <CalendarClient />
       </div>
     </div>
   );
