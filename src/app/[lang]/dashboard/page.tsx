@@ -7,7 +7,7 @@ import { getReports, getSingleMember } from "@/lib/data";
 import { Locale } from "@/lib/definitions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import Basictabs from "@/components/tabs";
+import PatientInfoTabs from "@/components/PatientInfoTabs";
 
 interface Props {
   params: {
@@ -94,8 +94,8 @@ async function PageContent({ locale }: PageContentProps) {
         {/* Right Column */}
         <div>
           <Card className="rounded-lg">
-            <CardContent>
-              <Basictabs />
+            <CardContent className="p-0">
+              <PatientInfoTabs />
             </CardContent>
           </Card>
         </div>

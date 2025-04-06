@@ -3,13 +3,15 @@
   "common.navigation.discover": "Discover",
   "common.navigation.dashboard": "Dashboard",
   "common.navigation.patients": "Patients",
+  "common.navigation.appointments": "Appointments",
+  "common.navigation.prescriptions": "Prescriptions",
   "common.user-menu.settings": "Settings",
   "common.user-menu.sign-out": "Sign out",
   "common.user-menu.your-profile": "Your profile",
   "page.discover.deploy-on-vercel.subtitle": "Experience lightning-fast deployments and superior performance for your Next.js projects with zero configuration.",
   "page.discover.deploy-on-vercel.title": "Deploy Next.js on Vercel",
-  "page.dashboard.activities": "Activities",
-  "page.dashboard.activity": "{action, select, COMMENT {Commented task} ACTIVATE {Activated job} STOP {Stopped job} other {Unkown activity}}",
-  "page.dashboards.team": "Team",
+  "page.patients.activities": "Activities",
+  "page.patients.activity": "{action, select, COMMENT {Commented task} ACTIVATE {Activated job} STOP {Stopped job} other {Unkown activity}}",
+  "page.patients.team": "Team",
   "page.patients.no-data": "No patients have been found."
 }

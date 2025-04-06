@@ -3,6 +3,8 @@
   "common.navigation.discover": "Entdecken",
   "common.navigation.dashboard": "Startseite",
   "common.navigation.patients": "Berichte",
+  "common.navigation.appointments": "Appointments",
+  "common.navigation.prescriptions": "Prescriptions",
   "common.user-menu.settings": "Einstellungen",
   "common.user-menu.sign-out": "Abmelden",
   "common.user-menu.your-profile": "Ihr Profil",
