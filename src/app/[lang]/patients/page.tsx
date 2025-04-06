@@ -36,11 +36,11 @@ async function PageContent({ locale }: PageContentProps) {
     <div className="grid gap-8 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
       <div>
         <Card>
-          <CardHeader>{intl.formatMessage({ id: "page.home.activities" })}</CardHeader>
+          <CardHeader>{intl.formatMessage({ id: "page.dashboard.activities" })}</CardHeader>
           <CardBody>
             {activities.map((activity) => (
               <div key={activity.ts} className="mt-3">
-                <div>{intl.formatMessage({ id: "page.home.activity" }, { action: activity.action })}</div>
+                <div>{intl.formatMessage({ id: "page.dashboard.activity" }, { action: activity.action })}</div>
                 <div className="flex justify-between items-center">
                   <div className="text-sm text-gray-700">
                     {activity.firstName} {activity.lastName}
@@ -63,7 +63,7 @@ async function PageContent({ locale }: PageContentProps) {
 
       <div>
         <Card>
-          <CardHeader>{intl.formatMessage({ id: "page.home.team" })}</CardHeader>
+          <CardHeader>{intl.formatMessage({ id: "page.patients.team" })}</CardHeader>
           <CardBody>
             {teamMembers.map((teamMember) => (
               <div key={teamMember.username} className="flex items-center flex-nowrap mt-3">

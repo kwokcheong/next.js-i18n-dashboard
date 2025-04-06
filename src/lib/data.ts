@@ -80,6 +80,20 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
   });
 }
 
+export async function getSingleMember(): Promise<TeamMember> {
+  return new Promise((resolve) => {
+    const teamMember: TeamMember = {
+      firstName: "Dries",
+      lastName: "Vincent",
+      username: "@driesvincent",
+      profileImage:
+        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    };
+
+    setTimeout(() => resolve(teamMember), 500);
+  });
+}
+
 export async function getActivities(): Promise<Activity[]> {
   return new Promise((resolve) => {
     const activities: Activity[] = [
