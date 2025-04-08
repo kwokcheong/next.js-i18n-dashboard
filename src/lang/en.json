@@ -10,8 +10,8 @@
   "common.user-menu.your-profile": "Your profile",
   "page.discover.deploy-on-vercel.subtitle": "Experience lightning-fast deployments and superior performance for your Next.js projects with zero configuration.",
   "page.discover.deploy-on-vercel.title": "Deploy Next.js on Vercel",
-  "page.patients.activities": "Activities",
-  "page.patients.activity": "{action, select, COMMENT {Commented task} ACTIVATE {Activated job} STOP {Stopped job} other {Unkown activity}}",
+  "page.dashboard.activities": "Activities",
+  "page.dashboard.activity": "{action, select, COMMENT {Commented task} ACTIVATE {Activated job} STOP {Stopped job} other {Unkown activity}}",
   "page.patients.team": "Team",
-  "page.patients.no-data": "No patients have been found."
+  "page.dashboard.no-data": "No patients have been found."
 }
