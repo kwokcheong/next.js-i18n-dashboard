@@ -17,6 +17,10 @@ export type TeamMember = {
   lastName: string;
   username: string;
   profileImage: string;
+  age: number;
+  nric: string;
+  dob: string;
+  idNo: string;
 };
 
 export type Activity = {
