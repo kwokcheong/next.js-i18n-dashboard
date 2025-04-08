@@ -20,9 +20,9 @@ export default function ProfileBanner({ teamMember }: Props) {
           <h1 className="text-3xl font-semibold flex items-center gap-2">
             {teamMember.firstName + " " + teamMember.lastName}
             <Male sx={{ color: "blue" }} />
-            <h2 className="text-xl">
+            {/* <h2 className="text-xl">
               {teamMember.age}, {teamMember.nric}, {teamMember.idNo}, {teamMember.dob}
-            </h2>
+            </h2> */}
           </h1>
           <Stack direction="row" spacing={1} className="mt-3">
             <Chip label="CHAS-blue" color="primary" sx={{ height: 24, fontSize: 12 }} />
