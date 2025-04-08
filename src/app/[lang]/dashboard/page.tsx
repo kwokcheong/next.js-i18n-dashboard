@@ -9,6 +9,7 @@ import { TextField } from "@mui/material";
 
 import PatientInfoTabs from "@/components/PatientInfoTabs";
 import ClinicForm from "@/components/ClinicForm";
+import { PatientForm } from "./patientForm";
 
 interface Props {
   params: {
@@ -37,29 +38,8 @@ async function PageContent({ locale }: PageContentProps) {
       <ProfileBanner teamMember={member} />
       <Card className="p-5">
         <Card className="mb-5 p-3">PCN YEAR: 2025</Card>
-        <Card className="rounded-lg mb-5">
-          <CardHeader className="bg-blue-50 rounded-t-lg mb-2 border-b border-gray-300 py-4 mb-5">
-            <CardTitle>Clinic Information</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ClinicForm />
-          </CardContent>
-        </Card>
 
-        <Card className="rounded-lg mb-5">
-          <CardHeader className="bg-blue-50 rounded-t-lg mb-4 border-b border-gray-300 py-4">
-            <CardTitle>Patient Information</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-4">
-              {/* Left Column */}
-              <div>LEFT</div>
-
-              {/* Right Column */}
-              <div>RIGHT</div>
-            </div>
-          </CardContent>
-        </Card>
+        <PatientForm />
       </Card>
     </>
   );

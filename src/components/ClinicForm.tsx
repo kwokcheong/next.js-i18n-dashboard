@@ -1,14 +1,23 @@
+// components/ClinicForm.tsx
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { TextField, Box, Typography } from "@mui/material";
 
-const ClinicForm = () => {
-  const [clinicName, setClinicName] = useState("");
-
-  const handleInputChange = (event: any) => {
-    setClinicName(event.target.value);
+interface ClinicFormProps {
+  formData: {
+    clinicName: string;
+    clinicCode: string;
+    clinicCommenceDate: string;
   };
+  formErrors: {
+    clinicName: string;
+    clinicCode: string;
+    clinicCommenceDate: string;
+  };
+  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
+const ClinicForm = ({ formData, formErrors, onInputChange }: ClinicFormProps) => {
   return (
     <Box>
       <div className="grid grid-cols-3 gap-4">
@@ -21,37 +30,46 @@ const ClinicForm = () => {
             fullWidth
             size="small"
             variant="outlined"
-            value={clinicName}
-            onChange={handleInputChange}
+            name="clinicName"
+            value={formData.clinicName}
+            onChange={onInputChange}
             placeholder="Enter clinic name"
+            error={Boolean(formErrors.clinicName)}
+            helperText={formErrors.clinicName}
           />
         </div>
         <div>
           <Typography variant="subtitle2" gutterBottom>
-            <strong>PCN GP Clinic Name</strong>
+            <strong>PCN GP Clinic Code</strong>
             <span style={{ color: "red" }}>*</span>
           </Typography>
           <TextField
             fullWidth
             size="small"
             variant="outlined"
-            value={clinicName}
-            onChange={handleInputChange}
-            placeholder="Enter clinic name"
+            name="clinicCode"
+            value={formData.clinicCode}
+            onChange={onInputChange}
+            placeholder="Enter clinic code"
+            error={Boolean(formErrors.clinicCode)}
+            helperText={formErrors.clinicCode}
           />
         </div>
         <div>
           <Typography variant="subtitle2" gutterBottom>
-            <strong>PCN GP Clinic Name</strong>
+            <strong>Clinic Commence Date</strong>
             <span style={{ color: "red" }}>*</span>
           </Typography>
           <TextField
             fullWidth
             size="small"
             variant="outlined"
-            value={clinicName}
-            onChange={handleInputChange}
-            placeholder="Enter clinic name"
+            type="date"
+            name="clinicCommenceDate"
+            value={formData.clinicCommenceDate}
+            onChange={onInputChange}
+            error={Boolean(formErrors.clinicCommenceDate)}
+            helperText={formErrors.clinicCommenceDate}
           />
         </div>
       </div>
