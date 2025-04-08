@@ -46,6 +46,8 @@ Feel free to share your ideas and report any issues on the template's [GitHub re
 
 ## Useful links
 
+test
+
 - [Next.js documentation](https://nextjs.org/docs)
 - [Next.js deployment documentation](https://nextjs.org/docs/deployment)
 - [Next.js internationalization (i18n) tutorial](https://localizely.com/blog/nextjs-i18n-tutorial/?tab=app-router)
