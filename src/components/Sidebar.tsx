@@ -111,7 +111,7 @@ export default async function Sidebar({ locale }: Props) {
             />
           </svg>
 
-          <div className="mx-4">Analytics</div>
+          <div className="mx-4">{intl.formatMessage({ id: "common.navigation.analytics" })}</div>
         </SidebarLink>
       </div>
     </div>
