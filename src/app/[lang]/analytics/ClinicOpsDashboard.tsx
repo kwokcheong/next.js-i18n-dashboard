@@ -1,6 +1,6 @@
 "use client";
 import React, { Suspense, useState } from "react";
-import PatientOutcomeCharts from "@/components/PatientOutcomeCharts";
+import ClinicOpsCharts from "@/components/ClinicOpsCharts";
 
 export default function PatientOutcomeDashboard() {
   return (
@@ -8,33 +8,33 @@ export default function PatientOutcomeDashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
           {
-            title: "Total Patients Visited",
-            value: "33",
-            change: "10%",
-            previous: "30",
-            isPositive: true,
-          },
-          {
-            title: "Average Patient Wait Time",
-            value: "15mins",
-            change: "-15%",
-            previous: "10mins",
-            isPositive: false,
-          },
-          {
-            title: "Average Consultation Time",
-            value: "10mins",
-            change: "+10%",
-            previous: "11mins",
-            isPositive: true,
-          },
-          {
-            title: "Patient Return Rate",
-            value: "3.8%",
+            title: "Cost of Medications and Supplies",
+            value: "$5000",
             change: "+0.1%",
-            previous: "3.9%",
+            previous: "$4999",
             isPositive: true,
           },
+          {
+            title: "Account Receivable (A/R) Days",
+            value: "45 days",
+            change: "+4.3%",
+            previous: "43 days",
+            isPositive: true,
+          },
+          {
+            title: "Patient Billing Turnaround Time",
+            value: "14 days",
+            change: "+7.7%",
+            previous: "13 days",
+            isPositive: true,
+          },
+          {
+            title: "Claim Denial Rate",
+            value: "8.5%",
+            change: "-5.6%",
+            previous: "9%",
+            isPositive: false,
+          }
         ].map((kpi, idx) => (
           <div
             key={idx}
@@ -42,7 +42,7 @@ export default function PatientOutcomeDashboard() {
           >
             <div className="text-sm text-gray-600 mb-3">{kpi.title}</div>
             <div className="text-3xl font-bold text-gray-500">{kpi.value}</div>
-            <div className="text-sm mt-3 flex items-center justify-between">
+            <div className="text-sm mt-3 flex items-center justify-between w-full">
               <div className="flex-1 flex flex-col items-start text-left">
                 <span className={`${kpi.isPositive ? "text-green-600" : "text-red-600"} font-semibold`}>
                   {kpi.change}
@@ -52,18 +52,17 @@ export default function PatientOutcomeDashboard() {
 
               <div className="h-6 w-px bg-gray-300 border-r border-dashed mx-4"></div>
 
-              <div className="flex-1 flex flex-col items-start text-center">
-                <span className="text-gray-500">
-                  <span className="text-gray-700">{kpi.previous}</span>
-                  <div className="text-xs text-gray-500 whitespace-nowrap">Previous day</div>
-                </span>
+              <div className="flex-1 flex flex-col items-start text-left">
+                <span className="text-gray-700">{kpi.previous}</span>
+                <div className="text-xs text-gray-500 whitespace-nowrap">Previous day</div>
               </div>
             </div>
           </div>
         ))}
       </div>
+
       <div className="mt-8">
-        <PatientOutcomeCharts />
+        <ClinicOpsCharts />
       </div>
     </div>
   );

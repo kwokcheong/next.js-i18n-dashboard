@@ -9,7 +9,7 @@ import Spinner from "@/components/Spinner";
 import { getIntl } from "@/lib/intl";
 import { Locale } from "@/lib/definitions";
 import { getActivities, getTeamMembers } from "@/lib/data";
-import BarChart from "@/components/BarChart";
+import BarChart from "@/components/PatientOutcomeCharts";
 import Link from "next/link";
 import AnalyticsTabs from "./AnalyticsTabs";
 

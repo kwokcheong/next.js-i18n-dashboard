@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CardBody from "@/components/CardBody";
 import PatientOutcomeDashboard from "./PatientOutcomeDashboard";
+import ClinicOpsDashboard from "./ClinicOpsDashboard";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -56,12 +57,7 @@ export default function AnalyticsTabs() {
         <PatientOutcomeDashboard />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Card>
-          <CardHeader>Analytics Overview</CardHeader>
-          <CardBody>
-            <p>This tab contains general information and context for your analytics dashboard.</p>
-          </CardBody>
-        </Card>
+        <ClinicOpsDashboard />
       </CustomTabPanel>
     </Box>
   );
