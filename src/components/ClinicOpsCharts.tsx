@@ -1,15 +1,17 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { Chart } from 'react-chartjs-2';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { useEffect, useState } from "react";
+import { Chart } from "react-chartjs-2";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import {
   Chart as ChartJS,
   ArcElement,
   CategoryScale,
   LinearScale,
   BarElement,
+  BarController,
   LineElement,
+  LineController,
   PointElement,
   Title,
   Tooltip,
@@ -17,8 +19,7 @@ import {
   ChartOptions,
   ChartData,
   BubbleController,
-  LineController,
-} from 'chart.js';
+} from "chart.js";
 import Card from "@/components/Card";
 
 ChartJS.register(
@@ -27,6 +28,7 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
+  BarController,
   LineElement,
   PointElement,
   Title,
@@ -43,7 +45,7 @@ ChartJS.defaults.plugins.datalabels = {
 const symptomOptions = ["Fever", "Cough", "Headache", "Back Pain", "Sore Throat"];
 
 const mockMedicationsBySymptom: Record<string, { name: string; used: number; left: number }[]> = {
-  "Fever": [
+  Fever: [
     { name: "Paracetamol", used: 90, left: 40 },
     { name: "Ibuprofen", used: 70, left: 60 },
     { name: "Aspirin", used: 50, left: 80 },
@@ -55,7 +57,7 @@ const mockMedicationsBySymptom: Record<string, { name: string; used: number; lef
     { name: "Ciprofloxacin", used: 45, left: 85 },
     { name: "Doxycycline", used: 60, left: 70 },
   ],
-  "Cough": [
+  Cough: [
     { name: "Codeine", used: 80, left: 34 },
     { name: "Guaifenesin", used: 60, left: 51 },
     { name: "Dextromethorphan", used: 70, left: 60 },
@@ -67,7 +69,7 @@ const mockMedicationsBySymptom: Record<string, { name: string; used: number; lef
     { name: "Prednisolone", used: 65, left: 58 },
     { name: "Montelukast", used: 75, left: 15 },
   ],
-  "Headache": [
+  Headache: [
     { name: "Acetaminophen", used: 100, left: 30 },
     { name: "Ibuprofen", used: 80, left: 55 },
     { name: "Aspirin", used: 77, left: 40 },
@@ -109,7 +111,15 @@ const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const maxMeds = [90, 85, 92, 88, 95, 91, 89];
 const minMeds = [20, 25, 15, 30, 22, 28, 26];
 const maxLabels = ["Ibuprofen", "Paracetamol", "Amoxicillin", "Aspirin", "Cefixime", "Acetaminophen", "Loratadine"];
-const minLabels = ["Aspirin", "Doxycycline", "Ibuprofen", "Amoxicillin", "Azithromycin", "Ciprofloxacin", "Diphenhydramine"];
+const minLabels = [
+  "Aspirin",
+  "Doxycycline",
+  "Ibuprofen",
+  "Amoxicillin",
+  "Azithromycin",
+  "Ciprofloxacin",
+  "Diphenhydramine",
+];
 
 export default function ClinicOpsCharts() {
   const [isClient, setIsClient] = useState(false);
@@ -119,20 +129,19 @@ export default function ClinicOpsCharts() {
     setIsClient(true);
   }, []);
 
-  const data = [...mockMedicationsBySymptom[selectedSymptom]]
-    .sort((a, b) => a.left - b.left);
+  const data = [...mockMedicationsBySymptom[selectedSymptom]].sort((a, b) => a.left - b.left);
 
   const chartData: ChartData<"bar", number[], string> = {
-    labels: data.map(d => d.name),
+    labels: data.map((d) => d.name),
     datasets: [
       {
         label: "Used",
-        data: data.map(d => d.used),
+        data: data.map((d) => d.used),
         backgroundColor: "rgba(239, 68, 68, 0.6)",
       },
       {
         label: "Left",
-        data: data.map(d => d.left),
+        data: data.map((d) => d.left),
         backgroundColor: "rgba(34, 197, 94, 0.6)",
       },
     ],
@@ -150,11 +159,11 @@ export default function ClinicOpsCharts() {
       },
       datalabels: {
         display: true,
-        anchor: 'center',
-        align: 'center',
-        color: '#fff',
+        anchor: "center",
+        align: "center",
+        color: "#fff",
         font: {
-          weight: 'bold' as const,
+          weight: "bold" as const,
           size: 12,
         },
         formatter: (value: number) => value,
@@ -179,7 +188,7 @@ export default function ClinicOpsCharts() {
         label: `Stick - ${day}`,
         data: [
           { x: day, y: minMeds[i] },
-          { x: day, y: maxMeds[i] }
+          { x: day, y: maxMeds[i] },
         ],
         borderColor: "rgba(100, 100, 100, 0.5)",
         borderWidth: 2,
@@ -188,7 +197,7 @@ export default function ClinicOpsCharts() {
         segment: { borderDash: [4, 4] },
         datalabels: { display: false },
       })),
-  
+
       {
         type: "bubble" as const,
         label: "Most",
@@ -211,9 +220,9 @@ export default function ClinicOpsCharts() {
         })),
         backgroundColor: "rgba(239, 68, 68, 0.7)",
       },
-    ]
+    ],
   };
-  
+
   const lollipopOptions: ChartOptions<"bubble" | "line"> = {
     responsive: true,
     maintainAspectRatio: false,
@@ -222,10 +231,12 @@ export default function ClinicOpsCharts() {
         position: "top",
         labels: {
           filter: function (legendItem, data) {
-            return legendItem.text !== undefined &&
+            return (
+              legendItem.text !== undefined &&
               legendItem.text !== "" &&
               legendItem.text !== "Stick" &&
-              !legendItem.text.startsWith("Stick");
+              !legendItem.text.startsWith("Stick")
+            );
           },
         },
       },
@@ -255,7 +266,6 @@ export default function ClinicOpsCharts() {
       },
     },
   };
-  
 
   return (
     <div className="space-y-10">
@@ -270,7 +280,9 @@ export default function ClinicOpsCharts() {
                 className="text-sm border rounded px-2 py-1 h-7 w-36"
               >
                 {symptomOptions.map((symptom) => (
-                  <option key={symptom} value={symptom}>{symptom}</option>
+                  <option key={symptom} value={symptom}>
+                    {symptom}
+                  </option>
                 ))}
               </select>
             </div>
