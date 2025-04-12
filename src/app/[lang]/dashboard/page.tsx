@@ -8,7 +8,6 @@ import ProfileBanner from "@/components/ProfileBanner";
 import { TextField } from "@mui/material";
 
 import PatientInfoTabs from "@/components/PatientInfoTabs";
-import ClinicForm from "@/components/ClinicForm";
 import { PatientForm } from "./patientForm";
 
 interface Props {
@@ -38,7 +37,6 @@ async function PageContent({ locale }: PageContentProps) {
       <ProfileBanner teamMember={member} />
       <Card className="p-5">
         <Card className="mb-5 p-3">PCN YEAR: 2025</Card>
-
         <PatientForm />
       </Card>
     </>
