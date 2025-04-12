@@ -19,7 +19,7 @@ export default async function Sidebar({ locale }: Props) {
       <hr className="h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25" />
 
       <div className="h-[calc(100vh-65px)] overflow-y-auto">
-        <SidebarLink href={`/${locale}/dashboard`}>
+        <SidebarLink href={`/${locale}/patient`}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -35,7 +35,7 @@ export default async function Sidebar({ locale }: Props) {
             />
           </svg>
 
-          <div className="mx-4">{intl.formatMessage({ id: "common.navigation.dashboard" })}</div>
+          <div className="mx-4">{intl.formatMessage({ id: "common.navigation.patient" })}</div>
         </SidebarLink>
 
         <SidebarLink href={`/${locale}/patients`}>

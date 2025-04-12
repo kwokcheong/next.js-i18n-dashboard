@@ -2,6 +2,7 @@
   "common.language-switcher": "{locale, select, en {English} de {Deutsch} fr {Français} other {Unknown}}",
   "common.navigation.discover": "Discover",
   "common.navigation.dashboard": "Dashboard",
+   "common.navigation.patient": "Patient Form",
   "common.navigation.patients": "Patients",
   "common.navigation.appointments": "Appointments",
   "common.navigation.prescriptions": "Prescriptions",

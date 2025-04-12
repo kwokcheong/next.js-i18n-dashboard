@@ -80,8 +80,8 @@ export default function NavbarContent({ user, locale, messages }: Props) {
 
               {appMenuOpen && (
                 <Menu ref={appMenuRef} aria-labelledby="app-menu-button" align="left">
-                  <MenuItem href={`/${locale}/dashboard`}>
-                    <FormattedMessage id="common.navigation.dashboard" />
+                  <MenuItem href={`/${locale}/patient`}>
+                    <FormattedMessage id="common.navigation.patient" />
                   </MenuItem>
                   <MenuItem href={`/${locale}/patients`}>
                     <FormattedMessage id="common.navigation.patients" />
@@ -93,7 +93,7 @@ export default function NavbarContent({ user, locale, messages }: Props) {
                     <FormattedMessage id="common.navigation.prescriptions" />
                   </MenuItem>
                   <MenuItem href={`/${locale}/analytics`}>
-                  <FormattedMessage id="common.navigation.analytics" />
+                    <FormattedMessage id="common.navigation.analytics" />
                   </MenuItem>
                 </Menu>
               )}
