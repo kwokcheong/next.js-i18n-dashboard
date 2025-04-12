@@ -104,6 +104,15 @@ export const PatientForm = () => {
                   onChange={handleInputChange}
                   error={Boolean(formErrors[field.name as keyof typeof formErrors])}
                   helperText={formErrors[field.name as keyof typeof formErrors]}
+                  InputProps={{
+                    sx: {
+                      "&.Mui-disabled": {
+                        backgroundColor: "#f0f0f0", // gray background
+                        color: "#555", // slightly darkened text color
+                        WebkitTextFillColor: "#555",
+                      },
+                    },
+                  }}
                 >
                   {field.options &&
                     field.options.map((opt) => (
