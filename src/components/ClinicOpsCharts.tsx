@@ -242,7 +242,7 @@ export default function ClinicOpsCharts() {
       },
       title: {
         display: true,
-        text: "Most and Least Medications Left Per Day",
+        text: "[Previous Week] Most and Least Medications Left Per Day",
       },
     },
     scales: {
