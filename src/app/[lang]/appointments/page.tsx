@@ -8,6 +8,9 @@ import Spinner from "@/components/Spinner";
 import { getIntl } from "@/lib/intl";
 import { Locale } from "@/lib/definitions";
 import { getActivities, getTeamMembers } from "@/lib/data";
+import AppointmentsTable from "./appointmentTable";
+import { TeamMember } from "@/lib/definitions";
+import { Activity } from "@/lib/definitions";
 
 interface Props {
   params: {
@@ -33,61 +36,8 @@ async function PageContent({ locale }: PageContentProps) {
   const activities = await getActivities();
 
   return (
-    <div className="grid gap-8 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-      <div>
-        <Card>
-          <CardHeader>{intl.formatMessage({ id: "page.dashboard.activities" })}</CardHeader>
-          <CardBody>
-            {activities.map((activity) => (
-              <div key={activity.ts} className="mt-3">
-                <div>{intl.formatMessage({ id: "page.dashboard.activity" }, { action: activity.action })}</div>
-                <div className="flex justify-between items-center">
-                  <div className="text-sm text-gray-700">
-                    {activity.firstName} {activity.lastName}
-                  </div>
-                  <div className="text-sm text-gray-700">
-                    {intl.formatDate(new Date(activity.ts), {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                      hour: "numeric",
-                      minute: "numeric",
-                    })}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </CardBody>
-        </Card>
-      </div>
-
-      <div>
-        <Card>
-          <CardHeader>{intl.formatMessage({ id: "page.patients.team" })}</CardHeader>
-          <CardBody>
-            {teamMembers.map((teamMember) => (
-              <div key={teamMember.username} className="flex items-center flex-nowrap mt-3">
-                <div>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={teamMember.profileImage}
-                    alt="Profile image"
-                    width={50}
-                    height={50}
-                    className="rounded-full p-1"
-                  />
-                </div>
-                <div className="mx-3">
-                  <p className="text-base">
-                    {teamMember.firstName} {teamMember.lastName}
-                  </p>
-                  <p className="text-sm text-gray-500">{teamMember.username}</p>
-                </div>
-              </div>
-            ))}
-          </CardBody>
-        </Card>
-      </div>
+    <div>
+      <AppointmentsTable teamMembers={teamMembers} activities={activities} />
     </div>
   );
 }
