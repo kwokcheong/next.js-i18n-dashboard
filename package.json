@@ -15,6 +15,7 @@
     "@formatjs/intl-localematcher": "^0.5.4",
     "@mui/icons-material": "^7.0.1",
     "@mui/material": "^7.0.1",
+    "@mui/x-data-grid": "^7.28.3",
     "@radix-ui/react-slot": "^1.1.2",
     "chart.js": "^4.4.8",
     "chartjs-plugin-datalabels": "^2.2.0",
