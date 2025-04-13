@@ -1,43 +1,52 @@
-import React, { Suspense } from "react";
+"use client";
 
-import Card from "@/components/Card";
-import CardHeader from "@/components/CardHeader";
-import CardBody from "@/components/CardBody";
-import Spinner from "@/components/Spinner";
+import { AppointmentsTable } from "./appointmentTable";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-import { getIntl } from "@/lib/intl";
-import { Locale } from "@/lib/definitions";
-import { getActivities, getTeamMembers } from "@/lib/data";
-import AppointmentsTable from "./appointmentTable";
-import { TeamMember } from "@/lib/definitions";
-import { Activity } from "@/lib/definitions";
+export default function Page() {
+  const searchParams = useSearchParams();
+  const name = searchParams.get("name");
+  const age = searchParams.get("age");
+  const id = searchParams.get("id");
+  const nric = searchParams.get("nric");
+  const gender = searchParams.get("gender");
+  const dob = searchParams.get("dob");
 
-interface Props {
-  params: {
-    lang: Locale;
-  };
-}
+  const [patientData, setPatientData] = useState<{
+    name?: string;
+    age?: string;
+    id?: string;
+    nric?: string;
+    gender?: string;
+    dob?: string;
+  } | null>(null);
 
-export default function Page({ params: { lang: locale } }: Props) {
-  return (
-    <Suspense fallback={<Spinner />}>
-      <PageContent locale={locale} />
-    </Suspense>
-  );
-}
+  // Store patientData in localStorage and retrieve it on page load
+  useEffect(() => {
+    const storedData = localStorage.getItem("patientData");
+    if (storedData) {
+      setPatientData(JSON.parse(storedData));
+    }
 
-interface PageContentProps {
-  locale: Locale;
-}
-
-async function PageContent({ locale }: PageContentProps) {
-  const intl = await getIntl(locale);
-  const teamMembers = await getTeamMembers();
-  const activities = await getActivities();
+    if (name || age || id || nric || gender || dob) {
+      const newPatientData = {
+        name: name || undefined,
+        age: age || undefined,
+        id: id || undefined,
+        nric: nric || undefined,
+        gender: gender || undefined,
+        dob: dob || undefined,
+      };
+      setPatientData(newPatientData);
+      localStorage.setItem("patientData", JSON.stringify(newPatientData));
+    }
+  }, [name, age, id, nric, gender, dob]);
 
   return (
     <div>
-      <AppointmentsTable teamMembers={teamMembers} activities={activities} />
+      <h3>Appointments Page</h3>
+      <AppointmentsTable patientData={patientData} />
     </div>
   );
 }

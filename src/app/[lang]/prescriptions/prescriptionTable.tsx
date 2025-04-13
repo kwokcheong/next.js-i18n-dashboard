@@ -29,7 +29,18 @@ interface Prescription {
   totalPrice: string;
 }
 
-const medications = ["Paracetamol", "Ibuprofen", "Amoxicillin", "Cetirizine"];
+// Expanded list of medication options
+const medications = [
+  "Paracetamol",
+  "Ibuprofen",
+  "Amoxicillin",
+  "Cetirizine",
+  "Aspirin",
+  "Vitamin C",
+  "Zinc",
+  "Antihistamine",
+];
+
 const frequencies = ["Once Daily", "Twice Daily", "Thrice Daily", "Every 6 hours"];
 const numberOptions = Array.from({ length: 10 }, (_, i) => (i + 1).toString());
 
@@ -42,7 +53,15 @@ export const PrescriptionTable = () => {
   const addPrescription = () => {
     setPrescriptions((prev) => [
       ...prev,
-      { id: Date.now(), name: "", dose: "", freq: "", days: "", totalQty: "", totalPrice: "" },
+      {
+        id: Date.now(),
+        name: "",
+        dose: "",
+        freq: "",
+        days: "",
+        totalQty: "",
+        totalPrice: "",
+      },
     ]);
   };
 
@@ -64,20 +83,80 @@ export const PrescriptionTable = () => {
 
   const handleSubmit = () => {
     const newErrors: { [key: number]: boolean } = {};
-
     prescriptions.forEach((row) => {
       if (!row.name || !row.dose || !row.freq || !row.days || !row.totalQty || !row.totalPrice) {
         newErrors[row.id] = true;
       }
     });
-
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       alert("Please fill in all required fields.");
       return;
     }
-
     console.log("Submitted Prescriptions:", prescriptions);
+  };
+
+  // Handle the mock illness action to auto-populate 6 rows for flu-like symptoms
+  const handleMockIllness = () => {
+    const baseId = Date.now();
+    const mockData: Prescription[] = [
+      {
+        id: baseId,
+        name: "Paracetamol",
+        dose: "1",
+        freq: "Thrice Daily",
+        days: "3",
+        totalQty: "3",
+        totalPrice: "5",
+      },
+      {
+        id: baseId + 1,
+        name: "Ibuprofen",
+        dose: "2",
+        freq: "Twice Daily",
+        days: "2",
+        totalQty: "4",
+        totalPrice: "10",
+      },
+      {
+        id: baseId + 2,
+        name: "Aspirin",
+        dose: "1",
+        freq: "Once Daily",
+        days: "5",
+        totalQty: "5",
+        totalPrice: "7",
+      },
+      {
+        id: baseId + 3,
+        name: "Vitamin C",
+        dose: "1",
+        freq: "Once Daily",
+        days: "7",
+        totalQty: "7",
+        totalPrice: "8",
+      },
+      {
+        id: baseId + 4,
+        name: "Zinc",
+        dose: "1",
+        freq: "Once Daily",
+        days: "7",
+        totalQty: "7",
+        totalPrice: "9",
+      },
+      {
+        id: baseId + 5,
+        name: "Antihistamine",
+        dose: "1",
+        freq: "Once Daily",
+        days: "7",
+        totalQty: "7",
+        totalPrice: "6",
+      },
+    ];
+    setPrescriptions(mockData);
+    setErrors({});
   };
 
   return (
@@ -206,9 +285,14 @@ export const PrescriptionTable = () => {
         />
       </Paper>
       <Box className="flex justify-between">
-        <Button startIcon={<Add />} variant="contained" onClick={addPrescription}>
-          Add Medication
-        </Button>
+        <Stack direction="row" spacing={2}>
+          <Button startIcon={<Add />} variant="contained" onClick={addPrescription}>
+            Add Medication
+          </Button>
+          <Button variant="outlined" onClick={handleMockIllness}>
+            Mock Illness
+          </Button>
+        </Stack>
         <Button variant="contained" color="primary" onClick={handleSubmit}>
           NEXT
         </Button>

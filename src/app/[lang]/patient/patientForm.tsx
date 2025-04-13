@@ -2,8 +2,11 @@
 import React, { useState, useEffect } from "react";
 import { Button, TextField, Box, Typography, MenuItem } from "@mui/material";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const PatientForm = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     patientName: "",
     patientID: "",
@@ -23,6 +26,7 @@ export const PatientForm = () => {
 
   const [formErrors, setFormErrors] = useState<Partial<Record<keyof typeof formData, string>>>({});
 
+  // Compute age based on dob
   useEffect(() => {
     if (formData.dob) {
       const birthDate = new Date(formData.dob);
@@ -42,6 +46,7 @@ export const PatientForm = () => {
   const validateForm = () => {
     const errors: any = {};
     Object.entries(formData).forEach(([key, value]) => {
+      // required fields, except for optional ones
       if (!value && key !== "ethnicityOthers" && key !== "homePhone") {
         errors[key] = "This field is required";
       }
@@ -52,9 +57,41 @@ export const PatientForm = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
     if (validateForm()) {
-      console.log("Form data submitted:", formData);
+      const queryParams = new URLSearchParams({
+        name: formData.patientName,
+        id: formData.patientID,
+        nric: formData.NRIC,
+        gender: formData.gender,
+        dob: formData.dob,
+        age: formData.age,
+      }).toString();
+
+      router.push(`/en/appointments?${queryParams}`);
     }
+  };
+
+  // Handle the mock Singpass action to auto-populate fields
+  const handleSingpassMock = () => {
+    const sampleData = {
+      patientName: "John Doe",
+      patientID: "P123456789",
+      NRIC: "S1234567A",
+      gender: "Male",
+      dob: "1990-01-01",
+      age: "", // age will be computed by the useEffect
+      citizenshipStatus: "Singaporean",
+      ethnicity: "Chinese",
+      ethnicityOthers: "",
+      homePhone: "61234567",
+      patientReferralSource: "Referral",
+      patientType: "Outpatient",
+      smoker: "No",
+      smokingAssessmentDate: "2023-01-01",
+    };
+    setFormData(sampleData);
+    setFormErrors({});
   };
 
   return (
@@ -69,7 +106,12 @@ export const PatientForm = () => {
               { name: "patientName", label: "Patient Name", required: true },
               { name: "patientID", label: "Patient ID", required: true },
               { name: "NRIC", label: "NRIC", required: true },
-              { name: "gender", label: "Gender", options: ["Male", "Female"], required: true },
+              {
+                name: "gender",
+                label: "Gender",
+                options: ["Male", "Female"],
+                required: true,
+              },
               { name: "dob", label: "Date of Birth", type: "date", required: true },
               { name: "age", label: "Age", disabled: true, required: true },
               {
@@ -91,7 +133,7 @@ export const PatientForm = () => {
             ].map((field) => (
               <Box key={field.name}>
                 <Typography variant="subtitle2" className="mb-1">
-                  {field.label} {field.disabled ? "" : field.required ? <span className="text-red-500">*</span> : ""}
+                  {field.label} {field.disabled ? "" : field.required && <span className="text-red-500">*</span>}
                 </Typography>
                 <TextField
                   select={!!field.options}
@@ -107,8 +149,8 @@ export const PatientForm = () => {
                   InputProps={{
                     sx: {
                       "&.Mui-disabled": {
-                        backgroundColor: "#f0f0f0", // gray background
-                        color: "#555", // slightly darkened text color
+                        backgroundColor: "#f0f0f0",
+                        color: "#555",
                         WebkitTextFillColor: "#555",
                       },
                     },
@@ -157,8 +199,11 @@ export const PatientForm = () => {
           </Box>
         </CardContent>
       </Card>
-      <Box className="flex justify-end">
-        <Button variant="contained" type="submit" className="mt-4">
+      <Box className="flex justify-between mt-4">
+        <Button variant="outlined" onClick={handleSingpassMock}>
+          Mock Singpass
+        </Button>
+        <Button type="submit" variant="contained" color="primary">
           Submit
         </Button>
       </Box>
