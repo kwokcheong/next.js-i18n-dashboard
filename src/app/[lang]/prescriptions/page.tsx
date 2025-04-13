@@ -8,7 +8,7 @@ import ProfileBanner from "@/components/ProfileBanner";
 import { TextField } from "@mui/material";
 
 import PatientInfoTabs from "@/components/PatientInfoTabs";
-import PrescriptionTable from "./prescriptionTable";
+import { PrescriptionTable } from "./prescriptionTable";
 
 interface Props {
   params: {
