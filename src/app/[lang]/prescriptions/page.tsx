@@ -33,9 +33,9 @@ async function PageContent({ locale }: PageContentProps) {
   const member = await getSingleMember();
 
   return (
-    <>
+    <div>
       <ProfileBanner teamMember={member} />
       <PrescriptionTable />
-    </>
+    </div>
   );
 }
