@@ -1,10 +1,10 @@
 "use client";
 
-import { AppointmentsTable } from "./appointmentTable";
+import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { AppointmentsTable } from "./appointmentTable";
 
-export default function Page() {
+function AppointmentsContent() {
   const searchParams = useSearchParams();
   const name = searchParams.get("name");
   const age = searchParams.get("age");
@@ -22,7 +22,6 @@ export default function Page() {
     dob?: string;
   } | null>(null);
 
-  // Store patientData in localStorage and retrieve it on page load
   useEffect(() => {
     const storedData = localStorage.getItem("patientData");
     if (storedData) {
@@ -48,5 +47,13 @@ export default function Page() {
       <h3>Appointments Page</h3>
       <AppointmentsTable patientData={patientData} />
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AppointmentsContent />
+    </Suspense>
   );
 }
