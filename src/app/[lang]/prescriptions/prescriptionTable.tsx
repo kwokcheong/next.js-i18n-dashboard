@@ -210,7 +210,7 @@ export const PrescriptionTable = () => {
           Add Medication
         </Button>
         <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Submit & Next
+          NEXT
         </Button>
       </Box>
     </Box>

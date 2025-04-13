@@ -72,8 +72,9 @@ export const McForm = () => {
                 error={!!formErrors.mc}
                 helperText={formErrors.mc}
               >
-                <MenuItem value="MC1">MC1</MenuItem>
-                <MenuItem value="MC2">MC2</MenuItem>
+                <MenuItem value="MC1">Unfit for duty</MenuItem>
+                <MenuItem value="MC2">Outpatient sick leave</MenuItem>
+                <MenuItem value="MC3">Hospitalization leave</MenuItem>
               </TextField>
 
               <TextField size="small" label="Patient Name" name="patientName" value={formData.patientName} disabled />
@@ -161,9 +162,11 @@ export const McForm = () => {
             </Box>
           </CardContent>
         </Card>
-        <Button variant="contained" type="submit">
-          Submit
-        </Button>
+        <Box className="flex justify-end">
+          <Button variant="contained" type="submit">
+            Submit
+          </Button>
+        </Box>
       </form>
     </>
   );

@@ -157,9 +157,11 @@ export const PatientForm = () => {
           </Box>
         </CardContent>
       </Card>
-      <Button variant="contained" type="submit" className="mt-4">
-        Submit
-      </Button>
+      <Box className="flex justify-end">
+        <Button variant="contained" type="submit" className="mt-4">
+          Submit
+        </Button>
+      </Box>
     </form>
   );
 };

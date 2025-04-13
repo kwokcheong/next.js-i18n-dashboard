@@ -114,9 +114,11 @@ export const ConsultationForm = () => {
           </Box>
         </CardContent>
       </Card>
-      <Button variant="contained" type="submit" className="mt-4">
-        Next
-      </Button>
+      <Box className="flex justify-end">
+        <Button variant="contained" type="submit" className="mt-4">
+          NEXT
+        </Button>
+      </Box>
     </form>
   );
 };
