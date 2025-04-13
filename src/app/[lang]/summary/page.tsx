@@ -1,4 +1,5 @@
-import * as React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,46 +8,80 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-const TAX_RATE = 0.07;
-
-function ccyFormat(num: number) {
-  return `${num.toFixed(2)}`;
+interface Prescription {
+  id: number;
+  name: string;
+  dose: string;
+  freq: string;
+  days: string;
+  totalQty: string;
+  totalPrice: string;
 }
 
-function priceRow(qty: number, unit: number) {
-  return qty * unit;
-}
-
-function createRow(desc: string, qty: number, unit: number) {
-  const price = priceRow(qty, unit);
-  return { desc, qty, unit, price };
-}
-
-interface Row {
+interface InvoiceRow {
   desc: string;
   qty: number;
   unit: number;
   price: number;
 }
 
-function subtotal(items: readonly Row[]) {
-  return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
+interface Prescription {
+  id: number;
+  name: string;
+  dose: string;
+  freq: string;
+  days: string;
+  totalQty: string;
+  totalPrice: string;
+}
+const TAX_RATE = 0.07;
+
+function ccyFormat(num: number) {
+  return `${num.toFixed(2)}`;
 }
 
-const rows = [
-  createRow("Paperclips (Box)", 100, 1.15),
-  createRow("Paper (Case)", 10, 45.99),
-  createRow("Waste Basket", 2, 17.99),
-];
+export default function InvoiceSummary() {
+  const [prescriptions, setPrescriptions] = useState<Prescription[]>([]);
 
-const invoiceSubtotal = subtotal(rows);
-const invoiceTaxes = TAX_RATE * invoiceSubtotal;
-const invoiceTotal = invoiceTaxes + invoiceSubtotal;
+  // Convert each prescription into an invoice row.
+  const medicationRows: InvoiceRow[] = prescriptions?.map((presc) => {
+    // Parse the quantity and price values from string to number.
+    const qty = parseFloat(presc.totalQty) || 0;
+    const totalPrice = parseFloat(presc.totalPrice) || 0;
+    // Calculate unit price if possible.
+    const unit = qty > 0 ? totalPrice / qty : 0;
+    // Build description from prescription details.
+    const desc = `${presc.name} (Dose: ${presc.dose}, Frequency: ${presc.freq}, Days: ${presc.days})`;
+    return { desc, qty, unit, price: totalPrice };
+  });
 
-export default function SpanningTable() {
+  // Retrieve prescriptions from localStorage on mount
+  useEffect(() => {
+    const storedPrescriptions = localStorage.getItem("prescriptions");
+    if (storedPrescriptions) {
+      setPrescriptions(JSON.parse(storedPrescriptions));
+    }
+  }, []);
+
+  // Add one default consultation row.
+  const consultationRow: InvoiceRow = {
+    desc: "Consultation",
+    qty: 1,
+    unit: 75,
+    price: 75,
+  };
+
+  // Combine the medication rows with the consultation row.
+  const invoiceRows: InvoiceRow[] = [...(medicationRows || []), consultationRow];
+
+  // Calculate invoice totals.
+  const invoiceSubtotal = invoiceRows.reduce((sum, row) => sum + row.price, 0);
+  const invoiceTaxes = TAX_RATE * invoiceSubtotal;
+  const invoiceTotal = invoiceSubtotal + invoiceTaxes;
+
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+      <Table sx={{ minWidth: 700 }} aria-label="invoice summary table">
         <TableHead>
           <TableRow>
             <TableCell align="center" colSpan={3}>
@@ -55,18 +90,18 @@ export default function SpanningTable() {
             <TableCell align="right">Price</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>Desc</TableCell>
-            <TableCell align="right">Qty.</TableCell>
-            <TableCell align="right">Unit</TableCell>
-            <TableCell align="right">Sum</TableCell>
+            <TableCell>Description</TableCell>
+            <TableCell align="right">Quantity</TableCell>
+            <TableCell align="right">Unit Price ($)</TableCell>
+            <TableCell align="right">Sum ($)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.desc}>
+          {invoiceRows?.map((row, index) => (
+            <TableRow key={index}>
               <TableCell>{row.desc}</TableCell>
               <TableCell align="right">{row.qty}</TableCell>
-              <TableCell align="right">{row.unit}</TableCell>
+              <TableCell align="right">{ccyFormat(row.unit)}</TableCell>
               <TableCell align="right">{ccyFormat(row.price)}</TableCell>
             </TableRow>
           ))}

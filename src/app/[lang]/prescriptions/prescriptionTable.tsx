@@ -18,6 +18,7 @@ import {
   Stack,
 } from "@mui/material";
 import { Delete, Add } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
 
 interface Prescription {
   id: number;
@@ -29,7 +30,6 @@ interface Prescription {
   totalPrice: string;
 }
 
-// Expanded list of medication options
 const medications = [
   "Paracetamol",
   "Ibuprofen",
@@ -49,6 +49,7 @@ export const PrescriptionTable = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [errors, setErrors] = useState<{ [key: number]: boolean }>({});
+  const router = useRouter();
 
   const addPrescription = () => {
     setPrescriptions((prev) => [
@@ -81,22 +82,6 @@ export const PrescriptionTable = () => {
     setPrescriptions((prev) => prev.filter((row) => row.id !== id));
   };
 
-  const handleSubmit = () => {
-    const newErrors: { [key: number]: boolean } = {};
-    prescriptions.forEach((row) => {
-      if (!row.name || !row.dose || !row.freq || !row.days || !row.totalQty || !row.totalPrice) {
-        newErrors[row.id] = true;
-      }
-    });
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      alert("Please fill in all required fields.");
-      return;
-    }
-    console.log("Submitted Prescriptions:", prescriptions);
-  };
-
-  // Handle the mock illness action to auto-populate 6 rows for flu-like symptoms
   const handleMockIllness = () => {
     const baseId = Date.now();
     const mockData: Prescription[] = [
@@ -106,7 +91,7 @@ export const PrescriptionTable = () => {
         dose: "1",
         freq: "Thrice Daily",
         days: "3",
-        totalQty: "3",
+        totalQty: "9",
         totalPrice: "5",
       },
       {
@@ -157,6 +142,26 @@ export const PrescriptionTable = () => {
     ];
     setPrescriptions(mockData);
     setErrors({});
+  };
+
+  const handleSubmit = () => {
+    const newErrors: { [key: number]: boolean } = {};
+    prescriptions.forEach((row) => {
+      if (!row.name || !row.dose || !row.freq || !row.days || !row.totalQty || !row.totalPrice) {
+        newErrors[row.id] = true;
+      }
+    });
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    // Save prescriptions to localStorage
+    localStorage.setItem("prescriptions", JSON.stringify(prescriptions));
+
+    // Navigate to the Summary Page
+    router.push("/summary");
   };
 
   return (
