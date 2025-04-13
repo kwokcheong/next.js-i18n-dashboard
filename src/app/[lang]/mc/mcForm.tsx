@@ -2,8 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { Button, TextField, Box, Typography, MenuItem } from "@mui/material";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 export const McForm = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     mc: "",
     patientName: "John Doe", // example patient data
@@ -51,6 +53,7 @@ export const McForm = () => {
     if (validateForm()) {
       console.log("Form data submitted:", formData);
     }
+    router.push(`/en/prescriptions`);
   };
 
   return (
@@ -164,7 +167,7 @@ export const McForm = () => {
         </Card>
         <Box className="flex justify-end">
           <Button variant="contained" type="submit">
-            Submit
+            Next
           </Button>
         </Box>
       </form>

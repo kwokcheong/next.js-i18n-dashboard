@@ -3,8 +3,10 @@ import React, { useState, useCallback } from "react";
 import { Button, TextField, Box, Typography, Autocomplete } from "@mui/material";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDropzone } from "react-dropzone";
+import { useRouter } from "next/navigation";
 
 export const ConsultationForm = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     visitDate: "",
     chiefComplaint: "",
@@ -28,6 +30,7 @@ export const ConsultationForm = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     console.log("Form data submitted:", formData);
+    router.push(`/en/mc`);
   };
 
   return (
