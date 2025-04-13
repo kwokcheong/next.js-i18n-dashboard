@@ -5,35 +5,31 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const McForm = () => {
   const [formData, setFormData] = useState({
-    patientName: "",
-    patientID: "",
-    NRIC: "",
-    gender: "",
-    dob: "",
-    age: "",
-    citizenshipStatus: "",
-    ethnicity: "",
-    ethnicityOthers: "",
-    homePhone: "",
-    patientReferralSource: "",
-    patientType: "",
-    smoker: "No",
-    smokingAssessmentDate: "",
+    mc: "",
+    patientName: "John Doe", // example patient data
+    nric: "S1234567D", // example NRIC
+    fromDate: "",
+    toDate: "",
+    days: "",
+    doctor: "",
+    type: "",
+    issueDate: "",
+    description: "",
   });
 
   const [formErrors, setFormErrors] = useState<Partial<Record<keyof typeof formData, string>>>({});
 
   useEffect(() => {
-    if (formData.dob) {
-      const birthDate = new Date(formData.dob);
-      const ageDifMs = Date.now() - birthDate.getTime();
-      const ageDate = new Date(ageDifMs);
-      const age = Math.abs(ageDate.getUTCFullYear() - 1970);
-      setFormData((prev) => ({ ...prev, age: age.toString() }));
+    if (formData.fromDate && formData.toDate) {
+      const from = new Date(formData.fromDate);
+      const to = new Date(formData.toDate);
+      const diffTime = to.getTime() - from.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      setFormData((prev) => ({ ...prev, days: diffDays >= 0 ? diffDays.toString() : "0" }));
     }
-  }, [formData.dob]);
+  }, [formData.fromDate, formData.toDate]);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setFormErrors((prev) => ({ ...prev, [name]: "" }));
@@ -42,7 +38,7 @@ export const McForm = () => {
   const validateForm = () => {
     const errors: any = {};
     Object.entries(formData).forEach(([key, value]) => {
-      if (!value && key !== "ethnicityOthers" && key !== "homePhone") {
+      if (!value && key !== "description") {
         errors[key] = "This field is required";
       }
     });
@@ -58,99 +54,117 @@ export const McForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Card className="rounded-lg mb-5">
-        <CardHeader className="bg-blue-50 rounded-t-lg border-b border-gray-300 py-4 mb-5">
-          <CardTitle>Patient Information</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Box className="grid grid-cols-3 gap-4">
-            {[
-              { name: "patientName", label: "Patient Name", required: true },
-              { name: "patientID", label: "Patient ID", required: true },
-              { name: "NRIC", label: "NRIC", required: true },
-              { name: "gender", label: "Gender", options: ["Male", "Female"], required: true },
-              { name: "dob", label: "Date of Birth", type: "date", required: true },
-              { name: "age", label: "Age", disabled: true, required: true },
-              {
-                name: "citizenshipStatus",
-                label: "Citizenship Status",
-                options: ["Singaporean", "PR", "Foreigner"],
-                required: true,
-              },
-              {
-                name: "ethnicity",
-                label: "Ethnicity",
-                options: ["Chinese", "Malay", "Indian", "Others"],
-                required: true,
-              },
-              { name: "ethnicityOthers", label: "Ethnicity for Others", required: false },
-              { name: "homePhone", label: "Home Phone", required: false },
-              { name: "patientReferralSource", label: "Patient Referral Source", required: true },
-              { name: "patientType", label: "Patient Type", required: true },
-            ].map((field) => (
-              <Box key={field.name}>
+    <>
+      <form onSubmit={handleSubmit}>
+        <Card className="rounded-lg mb-5">
+          <CardHeader className="bg-blue-50 rounded-t-lg border-b border-gray-300 py-4 mb-5">
+            <CardTitle>Medical Certificate (MC)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Box className="grid grid-cols-3 gap-4">
+              <TextField
+                select
+                size="small"
+                label="MC"
+                name="mc"
+                value={formData.mc}
+                onChange={handleInputChange}
+                error={!!formErrors.mc}
+                helperText={formErrors.mc}
+              >
+                <MenuItem value="MC1">MC1</MenuItem>
+                <MenuItem value="MC2">MC2</MenuItem>
+              </TextField>
+
+              <TextField size="small" label="Patient Name" name="patientName" value={formData.patientName} disabled />
+              <TextField size="small" label="NRIC" name="nric" value={formData.nric} disabled />
+
+              <TextField
+                size="small"
+                label="From Date"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                name="fromDate"
+                value={formData.fromDate}
+                onChange={handleInputChange}
+                error={!!formErrors.fromDate}
+                helperText={formErrors.fromDate}
+              />
+
+              <TextField
+                size="small"
+                label="To Date"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                name="toDate"
+                value={formData.toDate}
+                onChange={handleInputChange}
+                error={!!formErrors.toDate}
+                helperText={formErrors.toDate}
+              />
+
+              <TextField size="small" label="Days" name="days" value={formData.days} disabled />
+
+              <TextField
+                select
+                size="small"
+                label="Doctor"
+                name="doctor"
+                value={formData.doctor}
+                onChange={handleInputChange}
+                error={!!formErrors.doctor}
+                helperText={formErrors.doctor}
+              >
+                <MenuItem value="Dr. Tan">Dr. Tan</MenuItem>
+                <MenuItem value="Dr. Lim">Dr. Lim</MenuItem>
+              </TextField>
+
+              <TextField
+                select
+                size="small"
+                label="Type"
+                name="type"
+                value={formData.type}
+                onChange={handleInputChange}
+                error={!!formErrors.type}
+                helperText={formErrors.type}
+              >
+                <MenuItem value="Type A">Type A</MenuItem>
+                <MenuItem value="Type B">Type B</MenuItem>
+              </TextField>
+
+              <TextField
+                size="small"
+                label="Issue Date"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                name="issueDate"
+                value={formData.issueDate || new Date().toISOString().split("T")[0]}
+                onChange={handleInputChange}
+                error={!!formErrors.issueDate}
+                helperText={formErrors.issueDate}
+              />
+
+              <Box className="col-span-3">
                 <Typography variant="subtitle2" className="mb-1">
-                  {field.label} {field.disabled ? "" : field.required ? <span className="text-red-500">*</span> : ""}
+                  Description
                 </Typography>
                 <TextField
-                  select={!!field.options}
-                  size="small"
+                  multiline
+                  rows={4}
                   fullWidth
-                  type={field.type || "text"}
-                  disabled={field.disabled}
-                  name={field.name}
-                  value={formData[field.name as keyof typeof formData]}
+                  name="description"
+                  value={formData.description}
                   onChange={handleInputChange}
-                  error={Boolean(formErrors[field.name as keyof typeof formErrors])}
-                  helperText={formErrors[field.name as keyof typeof formErrors]}
-                >
-                  {field.options &&
-                    field.options.map((opt) => (
-                      <MenuItem key={opt} value={opt}>
-                        {opt}
-                      </MenuItem>
-                    ))}
-                </TextField>
+                />
               </Box>
-            ))}
-
-            <Box className="col-span-3 flex items-center space-x-4 mt-4">
-              <Typography variant="subtitle2">
-                Smoker: <span className="text-red-500">*</span>
-              </Typography>
-              {"Yes,No".split(",").map((option) => (
-                <label key={option} className="flex items-center">
-                  <input
-                    type="radio"
-                    name="smoker"
-                    value={option}
-                    checked={formData.smoker === option}
-                    onChange={handleInputChange}
-                  />
-                  <Typography className="ml-2">{option}</Typography>
-                </label>
-              ))}
             </Box>
-
-            <TextField
-              type="date"
-              label="Smoking Assessment Date"
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              name="smokingAssessmentDate"
-              value={formData.smokingAssessmentDate}
-              onChange={handleInputChange}
-              error={Boolean(formErrors.smokingAssessmentDate)}
-              helperText={formErrors.smokingAssessmentDate}
-              className="col-span-3 mt-2"
-            />
-          </Box>
-        </CardContent>
-      </Card>
-      <Button variant="contained" type="submit" className="mt-4">
-        Submit
-      </Button>
-    </form>
+          </CardContent>
+        </Card>
+        <Button variant="contained" type="submit">
+          Submit
+        </Button>
+      </form>
+    </>
   );
 };
