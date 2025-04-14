@@ -98,7 +98,7 @@ export default function BarChart() {
     plugins: {
       title: {
         display: true,
-        text: "Monthly Copayment Overview (SGD)",
+        text: "Monthly Cashflow Overview (SGD)",
       },
       legend: {
         position: "top",
