@@ -34,7 +34,6 @@ async function PageContent({ locale }: PageContentProps) {
 
   return (
     <>
-      <ProfileBanner teamMember={member} />
       <Card className="p-5">
         <Card className="mb-5 p-3">PCN YEAR: 2025</Card>
         <PatientForm />

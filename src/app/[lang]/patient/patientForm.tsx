@@ -75,7 +75,7 @@ export const PatientForm = () => {
   // Handle the mock Singpass action to auto-populate fields
   const handleSingpassMock = () => {
     const sampleData = {
-      patientName: "John Doe",
+      patientName: "Dries Vincent",
       patientID: "P123456789",
       NRIC: "S1234567A",
       gender: "Male",
