@@ -8,8 +8,8 @@ export const McForm = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     mc: "",
-    patientName: "John Doe", // example patient data
-    nric: "S1234567D", // example NRIC
+    patientName: "Dries Vincent", // example patient data
+    nric: "S1234567A", // example NRIC
     fromDate: "",
     toDate: "",
     days: "",
